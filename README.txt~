@@ -1,0 +1,9 @@
+README
+
+This is my Twitter application for the Qintel Developer Interview Project
+
+The application is written in Python 2.7 and uses python-twitter to interact
+with the Twitter API. 
+
+python-twitter can be installed here: https://github.com/bear/python-twitter
+
