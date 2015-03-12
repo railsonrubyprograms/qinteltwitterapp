@@ -13,12 +13,15 @@ class Twitter(object):
         self.user = None
         self.userFriends = 0
         self.userFollowers = 0
+        # common words found from: https://www.englishclub.com/vocabulary/common-words-100.htm
         commonWords = open("commonWords.txt", "r")
         self.commonWords = set()
         self.setCommonWords(commonWords)
+        # happy words found from: https://github.com/jeffreybreen/twitter-sentiment-analysis-tutorial-201107/blob/master/data/opinion-lexicon-English/positive-words.txt
         happyWords = open("happyWords.txt", "r")
         self.happyWords = set()
         self.setHappyWords(happyWords)
+        # negative words found from: https://github.com/jeffreybreen/twitter-sentiment-analysis-tutorial-201107/blob/master/data/opinion-lexicon-English/negative-words.txt
         negativeWords = open("negativeWords.txt", "r")
         self.negativeWords = set()
         self.setNegativeWords(negativeWords)
@@ -84,7 +87,7 @@ class Twitter(object):
     def getMostActiveTime(self):
         times = [0] * 24
         for status in self.statuses:
-         # created_at returns a string format of the date/time and the 4th element in that string is the time, and we just want the hour
+            # created_at returns a string format of the date/time and the 4th element in that string is the time, and we just want the hour
             time = (int(status.created_at.split()[3].split(":")[0]) + self.userTimeOffset) % 24
             times[time] += 1
         return str(times.index(max(times))) + ":00 to " + str(times.index(max(times)) + 1) + ":00"
@@ -93,9 +96,8 @@ class Twitter(object):
         numUrls = 0
         for status in self.statuses:
             if (status.urls != []): numUrls += 1
-        return "Ratio of tweets with URLs to total: " + str(float(numUrls)/len(self.statuses))
+        return "Ratio of tweets with URLs to total: " + str(float(numUrls) / len(self.statuses))
 
-    # top 10 words that are not common
     def topTenWords(self, unique):
         words = dict()
         if (unique):
@@ -122,7 +124,7 @@ class Twitter(object):
         sources = dict()
         if (web):
             for status in self.statuses:
-
+                # parse the source information text
                 sourceTemp = " ".join(status.source.split()[2:]).split(">")[1] 
                 source = sourceTemp[:len(sourceTemp) - 3]
                 if (source in sources):
@@ -166,6 +168,7 @@ class Twitter(object):
         print "save: saves the user's data in a text file in root directory of application"
         print "quit: quits the Twitter application\n"
 
+# Wrapper function that you run to interact with the twitter application
 def runTwitter():
     twitter = Twitter()
     twitter.run()
@@ -230,14 +233,8 @@ def runTwitter():
             contents += "Overall Happiness Level: " + str(twitter.happinessScale())
             filename = str(twitter.userScreenName) + ".txt"
             with open(filename, "wt") as fout:
-                fout.write(contents)        
+                fout.write(contents)
         elif (command == "quit"):
             break
         else:
             print "Invalid command. Enter 'help' for list of available commands"
-
-"""
-To Do:
-    finish readme
-    update tweets
-"""

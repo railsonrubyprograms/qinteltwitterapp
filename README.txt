@@ -1,6 +1,6 @@
 README
 
-This is my Twitter application for the Qintel Developer Interview Project
+This is my Twitter application
 
 The application is written in Python 2.7 and uses python-twitter to interact
 with the Twitter API. 
